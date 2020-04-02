@@ -32,6 +32,19 @@ public class TODO {
 		this.lisaTietoa = "";
 	}
 	
+	
+	/**
+	 * Luo uuden todo-olion, jossa on olettamus arvot 
+	 */
+	public TODO() {
+		this.id = -1;
+		this.otsikko = "";
+		this.paikka = "";
+		this.aika = new Time(12,00,00);
+		this.lisaTietoa = "";
+	}
+	
+	
 	/**
 	 * Todo-olio, jossa on kaikki tiedot. K‰ytet‰‰n varsinaisessa ohjelmassa, kun luodaan todo:ita.
 	 * @param id Todo-olion ID. Ei voida muokata.
@@ -96,8 +109,46 @@ public class TODO {
 	/**
 	 * Muuttaa olion luettavaan muotoon
 	 */
-	public String toString() {
+	public String toStringTulostettava() {
 		return this.id + " | " + this.otsikko + " | " + this.paikka + " | " + this.aika + " | " + this.lisaTietoa;
+	}
+	
+	
+	/**
+	 * Muuttaa todo-olion tiedostosta luettavaan muotoon.
+	 * @return todo-olio luettavassa muodossa.
+	 */
+	public String toString() {
+		return this.id + "#" + this.otsikko + "#" + this.paikka + "#" + this.aika + "#" + this.lisaTietoa;
+	}
+	
+	
+	/**
+	 * J‰sent‰‰ merkkijonon tiedostosta ja luo uuden todo-olion.
+	 * Taulukossa olevat osat menev‰t seuraavasti:
+	 * 	0.: ID.
+	 * 	1.: Otsikko.
+	 * 	2.: Paikka.
+	 * 	3.: Aika.
+	 * 	4.: Lis‰tietoa.
+	 * @param rivi Rivi, joka j‰sennet‰‰n
+	 * @return Todo-olio.
+	 */
+	public TODO parse(String rivi) {
+		String[] arr = rivi.split("#");
+		int id = Integer.parseInt(arr[0]);
+		
+		String[] aikaOsatString = arr[3].split(":");
+		int[] aikaOsatInt = new int[3];
+		
+		for (int i = 0; i < 3; i++) {
+			aikaOsatInt[i] = Integer.parseInt(aikaOsatString[i]);
+		}
+		
+		Time aika = new Time(aikaOsatInt[0], aikaOsatInt[1], aikaOsatInt[2]);
+		
+		TODO todo = new TODO(id, arr[1], arr[2], aika, arr[4]);
+		return todo;
 	}
 	
 	

@@ -1,5 +1,11 @@
 package HarjoitusTyo;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Time;
 
 /**
@@ -10,6 +16,7 @@ public class TODOt {
 	private int MAX_TODOITA = 50;
 	private TODO[] todotTaulukko = new TODO[MAX_TODOITA];
 	private int todoMaara = 0;
+	private boolean muutettu = false;
 	
 	
 	public static void main(String[] args) {
@@ -21,7 +28,7 @@ public class TODOt {
 	
 	
 	public TODOt() {
-
+		// Ei tarvitse tehdä mitään, muuttujat määritelty aikaisemmin.
 	}
 	
 	
@@ -39,6 +46,42 @@ public class TODOt {
 		} else {
 			System.out.println("LIKAA TODO:ITA LISÄÄMISTÄ VARTEN");
 		}
+	}
+	
+	
+	/**
+	 * Lukee tiedostosta todo:iden tiedot
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public void lueTiedostosta(String tiedosto) throws FileNotFoundException, IOException {
+		try (BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))) {
+			String rivi;
+			while ((rivi = lukija.readLine()) != null) {
+				//System.out.println(rivi);
+				TODO todo = new TODO();
+				todo= new TODO().parse(rivi);
+				lisaaTODO(todo);
+			}
+		} catch (FileNotFoundException ex) {
+			System.out.println("Ongelma TODOt.java:" + ex);
+		} catch (IOException ex) {
+			System.out.println("Ongelma TODOt.java:" + ex);
+		}
+	}
+	
+	
+	/**
+	 * Tallentaa todo:n tiedot tiedostoon
+	 * @throws IOException 
+	 */
+	public void tallenna(String tiedosto) throws IOException {
+		
+		try (PrintWriter kirjuri = new PrintWriter(new FileWriter(tiedosto))) {
+			for (TODO todo : todotTaulukko) {
+				kirjuri.println(todo.toString());
+			}
+		}		
 	}
 	
 	

@@ -48,8 +48,9 @@ public class HarjoitusTyoGUIController {
 	
 	
 	@FXML void fromKirjautuminenToKayttajatHaku (ActionEvent event) throws IOException{
-    	BorderPane pane = FXMLLoader.load(getClass().getResource("KayttajatHakuGUIView2.fxml")); // Vie v‰liaikaiseen ikkunaan 
+    	BorderPane pane = FXMLLoader.load(getClass().getResource("KayttajatHakuGUIView2.fxml")); // Vie v‰liaikaiseen ikkunaan     	
     	KirjautuminenPanel.getChildren().setAll(pane);
+    	lueTiedosto();
     }
 	
 	
@@ -133,7 +134,9 @@ public class HarjoitusTyoGUIController {
 	}
 	
 	
-	
+	/**
+	 * K‰sittelee todo:n lis‰‰misen, kun painetaan nappia
+	 */
 	@FXML void lisaaTODO(ActionEvent event) {
 		uusiTODO();
 	}
@@ -155,19 +158,24 @@ public class HarjoitusTyoGUIController {
 			kayttajaLista.getItems().add(uusi.getNimi());
 			tulostusAlue.setText(ohjelma.annaKayttaja(ind).toString());
 			ind++;
+			ohjelma.tallenna();
 		} catch (Exception e) {
 			Dialogs.showMessageDialog("Ongelma k‰ytt‰j‰n luomisessa");
 			return;
 		}
 	}
 	
-	
-	private void uusiTODO() {
+	/**
+	 * Uuden todo:n luomismetodi. 
+	 */
+	private void uusiTODO() { // TODO BUGI: todo:ita lis‰tess‰ ei aseteta k‰ytt‰j‰‰, jos k‰ytt‰j‰ on luotu sill‰v‰lin
 		TODO uusi = new TODO(TODOind);
 		uusi.luoValmis(TODOind);
 		try {
 			ohjelma.lisaaTODO(ohjelma.annaKayttaja(tamanHetkinen), uusi);
 			TODOind++;
+			valitseKayttaja();
+			ohjelma.tallenna();
 		} catch (Exception e) {
 			Dialogs.showMessageDialog("Ongelma TODO:n lis‰‰misess‰");
 			return;
@@ -175,19 +183,58 @@ public class HarjoitusTyoGUIController {
 	}
 	
 	
-	void valitseKayttaja() {
+	/**
+	 * Kayttajan valinnan metodi.
+	 */
+	private void valitseKayttaja() {
 		tamanHetkinen = kayttajaLista.getSelectionModel().getSelectedIndex();
 		
 		String tulostettava = ohjelma.annaKayttaja(tamanHetkinen).toString();
 		
 		try {
-			tulostettava += ohjelma.kayttajanTODOt(tamanHetkinen);
-		} catch (Exception e) {
-			
-		}
-
+			tulostettava += "\n" + ohjelma.kayttajanTODOt(tamanHetkinen);
+		} catch (Exception e) {}
 		
 		tulostusAlue.setText(tulostettava);
 	}
 
+	
+	/**
+	 * Tallentaa tiedot
+	 */
+	public void tallenna() {
+		try {
+			ohjelma.tallenna();
+		} catch (Exception e) {
+			System.out.println("Ongelma: " + e);
+		}
+	}
+	
+	/**
+	 * Yritt‰‰ lukea tiedostosta.
+	 */
+	public void lueTiedosto() {
+		try {
+			 kayttajaLista = new ListView<String>();
+			
+			ohjelma.lueTiedosto();
+			
+			// TODO Tulosta tiedot n‰ytˆlle ja listaan
+			
+			for (int i = 0; i < 10; i++) {
+				try {
+					if (ohjelma.annaKayttaja(i) != null) {					
+						kayttajaLista.getItems().add(ohjelma.annaKayttaja(i).getNimi()); // Miksi ep‰onnistuu?
+						System.out.println(ohjelma.annaKayttaja(i).getNimi());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					e.getCause();
+					System.out.println("Ongelma HarjoitusTyoGUIController.java : " + e);
+				}				
+			}			
+		} catch (Exception e) {
+			System.out.println("Ongelma HarjoitusTyoGUIController.java : " + e);
+		}
+	}
 }

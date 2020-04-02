@@ -16,7 +16,7 @@ public class HarjoitusTyoMain extends Application {
 	@Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("KayttajatHakuGUIView2.fxml"));
+            FXMLLoader ldr = new FXMLLoader(getClass().getResource("KirjautuminenGUIView.fxml"));
             
             final Pane root = ldr.load();
             //final HarjoitusTyoGUIController harjoitustyoCtrl = (HarjoitusTyoGUIController) ldr.getController();

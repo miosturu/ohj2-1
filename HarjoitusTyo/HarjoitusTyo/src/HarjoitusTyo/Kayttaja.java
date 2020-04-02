@@ -18,24 +18,9 @@ public class Kayttaja {
 	public static void main(String[] args) {
 		Kayttaja k1 = new Kayttaja(0);		
 		k1.luoValmis(0);
-		k1.tulostaTiedot();
-		
-		Kayttaja k2 = new Kayttaja(1);
-		k2.luoValmis(1);
-		k2.tulostaTiedot();
-		
-		System.out.println("\nLis‰t‰‰n TODOt\n");
-		
-		k1.lisaaTODO(1); k1.lisaaTODO(5); k1.lisaaTODO(2);
-		k1.tulostaTiedot();
-		k2.tulostaTiedot();
-		
-		System.out.println("\nPoistetaan TODOt\n");
-		
-		k1.poistaTODO(5);
-		k1.tulostaTiedot();
-		k2.poistaTODO(2);
-		k2.tulostaTiedot();
+		int[] todot = new int[]{0,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+		k1.todot = todot;
+		System.out.println(k1.parse(k1.toString()));
 	}
 	
 	
@@ -45,6 +30,23 @@ public class Kayttaja {
 	 */
 	public Kayttaja(int id) {
 		this.id = id;
+		this.nimi = "";
+		this.puhNum = "";
+		this.osoite = "";
+		this.sPosti = "";
+		this.todot = new int[MAX_TODOT];
+		
+		for (int i = 0; i < todot.length; i++) {
+			todot[i] = -1;
+		}
+	}
+	
+	/**
+	 * Luo uuden Kayttaja-olion oletusarvoilla
+	 * Jos taulukon indeksiss‰ on -1, se tarkoittaa, ett‰ siihen voidaan lis‰t‰ uusi todo
+	 */
+	public Kayttaja() {
+		this.id = -1;
 		this.nimi = "";
 		this.puhNum = "";
 		this.osoite = "";
@@ -67,6 +69,8 @@ public class Kayttaja {
 	 * @param sPosti Kayttajan s‰hkˆpostiosoite. Voidaan muokata.
 	 */
 	public Kayttaja(int id, String nimi, String puh, String osoite, String sPosti) {
+		int[] todot = new int[MAX_TODOT];
+		
 		this.id = id;
 		
 		if (nimi == "") this.nimi = "Syˆt‰ nimi t‰h‰n";
@@ -84,6 +88,36 @@ public class Kayttaja {
 		for (int i = 0; i < todot.length; i++) {
 			todot[i] = -1;
 		}
+		this.todot = todot;
+	}
+	
+	
+	/**
+	 * Luo Kayttaja-olion ja varmistaa, ett‰ tietoja on. Todo:iden indeksit lis‰t‰‰n myˆhemmin.
+	 * Jos taulukon indeksiss‰ on -1, se tarkoittaa, ett‰ siihen voidaan lis‰t‰ uusi todo
+	 * @param id Kayttajan ID. Ei voida muokata.
+	 * @param nimi Kayttajan nimi. Voidaan muokata.
+	 * @param puh Kayttajan puhelinnumero. Voidaan muokata.
+	 * @param osoite Kayttajan osoite. Voidaan muokata.
+	 * @param sPosti Kayttajan s‰hkˆpostiosoite. Voidaan muokata.
+	 */
+	public Kayttaja(int id, String nimi, String puh, String osoite, String sPosti, int[] todot) {		
+		this.id = id;
+		
+		if (nimi == "") this.nimi = "Syˆt‰ nimi t‰h‰n";
+		else this.nimi = nimi;
+		
+		if (puh == "") this.puhNum = "Syˆt‰ puhelinnumero t‰h‰n";
+		else this.puhNum = puh;
+		
+		if (osoite == "") this.osoite = "Syˆt‰ osoite t‰h‰n";
+		else this.osoite = osoite;
+		
+		if (sPosti == "") this.sPosti = "Syˆt‰ s‰hkˆpostiosoite t‰h‰n";
+		else this.sPosti = sPosti;
+		
+		
+		this.todot = todot;
 	}
 	
 	
@@ -132,13 +166,70 @@ public class Kayttaja {
 	}
 	
 	
-	
-	public String toString() {
+	/**
+	 * Tekee oliosta luettavan.
+	 * @return Olion tiedot.
+	 */
+	public String toStringTulostus() {
 		String palautus = "ID: " + this.id + "\nNimi: " + this.nimi + "\nPuh.#: " + this.puhNum + "\nOsoite: " + this.osoite + "\nS-posti: " + this.sPosti + "\n";
-		
-		//for (int i = 0; i < this.MAX_TODOT; i++) palautus += this.todot[i] + ", ";
-		
 		return palautus;
+	}
+	
+	
+	/**
+	 * Muuttaa kayttaja-olion tiedostosta luettavaan muotoon.
+	 * @return kayttaja-olio luettavassa muodossa.
+	 */
+	public String toString() {
+		StringBuilder todot = new StringBuilder();
+		
+		for (int i = 0; i < this.todot.length; i++) {
+			if (this.todot[i] != -1) {
+				todot.append(this.todot[i] + " ");
+			}
+		}
+		try {
+			todot.deleteCharAt(todot.length() - 1);			
+		} catch (Exception e) {}
+		
+		return this.id + "#" + this.nimi + "#" + this.puhNum + "#" + this.osoite + "#" + this.sPosti + "#" +  todot.toString();
+	}
+	
+	
+	/**
+	 * J‰sent‰‰ merkkijonon tiedostosta ja luo uuden kayttaja-olion.
+	 * Taulukossa olevat osat menev‰t seuraavasti:
+	 * 0.: ID.
+	 * 1.: Nimi.
+	 * 2.: Puhelinnumero.
+	 * 3.: Osoite.
+	 * 4.: Todo:iden indeksit
+	 * @param rivi Rivi, joka j‰sennet‰‰n
+	 * @return Kayttaja-olio
+	 */
+	public Kayttaja parse(String rivi) {
+		String[] arr = rivi.split("#");
+		int id = Integer.parseInt(arr[0]);
+		
+		Kayttaja kayttaja = new Kayttaja(id, arr[1], arr[2], arr[3], arr[4], parseTodoIndeksit(arr[5]));
+		//kayttaja.todot = parseTodoIndeksit(arr[5]);
+		return kayttaja;
+	}
+	
+	public int[] parseTodoIndeksit(String jono) {
+		int[] todoIndeksit = new int[MAX_TODOT];
+		
+		for (int i = 0; i < MAX_TODOT; i++) {
+			todoIndeksit[i] = -1;
+		}
+		
+		String[] todotString = jono.split(" ");
+		
+		for (int i = 0; i < todotString.length; i++) {
+			todoIndeksit[i] = Integer.parseInt(todotString[i]);
+		}
+		
+		return todoIndeksit;
 	}
 	
 	/**
@@ -225,6 +316,19 @@ public class Kayttaja {
 	 */
 	public int[] getTODOt() {
 		return this.todot;
+	}
+	
+	/**
+	 * Laskee, monta todo:ta on k‰ytt‰j‰ll‰.
+	 * @return Todo:iden m‰‰r‰.
+	 */
+	public int getTODOmaara() {
+		int maara = 0;
+		
+		for (int i = 0; i < todot.length; i++) {
+			if (todot[i] != -1) maara++;
+		}
+		return maara;
 	}
 	
 	

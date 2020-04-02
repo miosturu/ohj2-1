@@ -1,36 +1,20 @@
 package HarjoitusTyo;
 
+import java.io.IOException;
+
 /**
  * TODOohjelma, jonka tarkoituksena on kommunikoida ja koordinoita muiden luokkien toimintaa ja käsitellä käyttäjän antamaan syötettä.
  */
 public class TODOohjelma {
-	private final Kayttajat kayttajat = new Kayttajat();
-	private final TODOt todot = new TODOt();
+	private Kayttajat kayttajat = new Kayttajat();
+	private TODOt todot = new TODOt();
+	String kayttajatTiedosto = "kayttajat.dat";
+	String todotTiedosto = "todo.dat";
 	
 	public static void main(String[] args) {
 		TODOohjelma ohjelma = new TODOohjelma();
 		
-		Kayttaja k0 = new Kayttaja(0);
-		k0.luoValmis(0);
-		ohjelma.lisaaKayttaja(k0);
-		k0.tulostaTiedot();
-		
-		
-		TODO t1 = new TODO(0);
-		t1.luoValmis(0);
-		TODO t2 = new TODO(1);
-		t2.luoValmis(1);
-
-		
-		ohjelma.lisaaTODO(k0,t1);
-		ohjelma.lisaaTODO(k0,t2);
-		
-		k0.tulostaTiedot();
-		
-		String s1 = ohjelma.kayttajanTODOt(0);
-		System.out.println(s1);
-		
-		System.out.println(t1.toString() + "\n" + t2.toString());
+		ohjelma.lueTiedosto();
 	}
 	
 	
@@ -104,5 +88,40 @@ public class TODOohjelma {
 		String tulostettava = "";
 		for (int i = 0; i < 10; i++) if (lista[i] > -1) tulostettava += this.todot.anna(lista[i]) + "\n";
 		return tulostettava;
+	}
+	
+	
+	/**
+	 * Tallentaa Kayttajien ja todo:iden tiedot omiin tiedostoihin.
+	 */
+	public void tallenna() {
+		try {
+			kayttajat.tallenna(kayttajatTiedosto); // TODO Pitäisi keksiä, miten tiedostot käsitellään
+		} catch (Exception e) {}
+		
+		try {
+			todot.tallenna(todotTiedosto);
+		} catch (Exception f) {}
+	}
+	
+	
+	
+	public void lueTiedosto() {
+		kayttajat = new Kayttajat();
+		todot = new TODOt();
+		
+		try {
+			kayttajat.lueTiedostosta(kayttajatTiedosto);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("TODOohjelma ongelma: " + e);
+		}
+		
+		try {
+			todot.lueTiedostosta(todotTiedosto);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("TODOohjelma ongelma: " + e);
+		}
 	}
 }
