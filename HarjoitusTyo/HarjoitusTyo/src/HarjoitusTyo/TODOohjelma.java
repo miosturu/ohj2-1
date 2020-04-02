@@ -15,6 +15,7 @@ public class TODOohjelma {
 		TODOohjelma ohjelma = new TODOohjelma();
 		
 		ohjelma.lueTiedosto();
+		System.out.println(ohjelma.annaKayttaja(0));
 	}
 	
 	
@@ -50,7 +51,7 @@ public class TODOohjelma {
 	 */
 	public void lisaaTODO(Kayttaja kayttaja, TODO todo) {
 		this.todot.lisaaTODO(todo);
-		kayttaja.lisaaTODO(todo.getId());
+		kayttaja.lisaaTODO(todo.getId());		
 	}
 	
 	

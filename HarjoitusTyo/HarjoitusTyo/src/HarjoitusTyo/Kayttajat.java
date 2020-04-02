@@ -14,13 +14,22 @@ public class Kayttajat {
 	private static final int MAX_KAYTTAJIA = 10;
 	private final Kayttaja[] kayttajatTaulukko = new Kayttaja[MAX_KAYTTAJIA];
 	private int kayttajienMaara = 0;
-	private boolean muutettu = false;
 	
 	public static void main(String[] args) {
 		Kayttajat kayttajat = new Kayttajat();
-		Kayttaja a1 = new Kayttaja(0); Kayttaja a2 = new Kayttaja(1);
-		a1.luoValmis(0); a2.luoValmis(1);
-		a1.tulostaTiedot(); a2.tulostaTiedot();
+		
+		try {
+			kayttajat.lueTiedostosta("kayttajat.dat");
+		} catch (IOException e) { /**/ }
+		
+		Kayttaja k1 = new Kayttaja();
+		k1.luoValmis(4);
+		
+		kayttajat.lisaaKayttaja(k1);
+		
+		try {
+			kayttajat.tallenna("kayttajat.dat");
+		} catch (IOException e) { /**/ }
 	}
 	
 	
@@ -74,8 +83,11 @@ public class Kayttajat {
 	 */
 	public void tallenna(String tiedosto) throws IOException {		
 		try (PrintWriter kirjuri = new PrintWriter(new FileWriter(tiedosto))) {
+			kirjuri.print("");
 			for (Kayttaja kayttaja : kayttajatTaulukko) {
-				kirjuri.println(kayttaja.toString());
+				if (kayttaja != null) {
+					kirjuri.println(kayttaja.toString());
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Ongelma: " + e);

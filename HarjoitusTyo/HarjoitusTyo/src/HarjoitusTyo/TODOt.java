@@ -16,14 +16,22 @@ public class TODOt {
 	private int MAX_TODOITA = 50;
 	private TODO[] todotTaulukko = new TODO[MAX_TODOITA];
 	private int todoMaara = 0;
-	private boolean muutettu = false;
 	
 	
 	public static void main(String[] args) {
 		TODOt todot = new TODOt();
-		TODO t1 = new TODO(0); TODO t2 = new TODO(1);
-		t1.luoValmis(0); t2.luoValmis(1);
-		t1.tulostaTiedot(); t2.tulostaTiedot();
+		try {
+			todot.lueTiedostosta("todo.dat");
+		} catch (IOException e) { /**/ }
+		
+		TODO t1 = new TODO();
+		t1.luoValmis(5);
+		
+		todot.lisaaTODO(t1);
+		
+		try {
+			todot.tallenna("todo.dat");
+		} catch (IOException e) { /**/ }
 	}
 	
 	
@@ -78,10 +86,15 @@ public class TODOt {
 	public void tallenna(String tiedosto) throws IOException {
 		
 		try (PrintWriter kirjuri = new PrintWriter(new FileWriter(tiedosto))) {
+			kirjuri.print("");
 			for (TODO todo : todotTaulukko) {
-				kirjuri.println(todo.toString());
+				if (todo != null) {
+					kirjuri.println(todo.toString());	
+				}
 			}
-		}		
+		}  catch (IOException e) {
+			System.out.println("Ongelma: " + e);
+		}
 	}
 	
 	

@@ -141,13 +141,22 @@ public class HarjoitusTyoGUIController {
 		uusiTODO();
 	}
 	
+	
+	/**
+	 * Käsittelee erillisen tallenatimisen 
+	 */
+	@FXML void handleTallenna(ActionEvent event) {
+		//ohjelma.tallenna();
+    	tulostaKayttajat();
+	}
+	
 
 	/*Ei käyttöliittymään liittyvät funktiot ja metodit*/
 	
 	private TODOohjelma ohjelma = new TODOohjelma();
-	private int ind = 0;
-	private int TODOind = 0;
-	private int tamanHetkinen = 0;
+	private int ind = viimeisinEiKaytettyIndeksi("kayttajat.dat"); // TODO tee metodi, joka ottaa viimeisimmän käyttäjän indeksin
+	private int TODOind = viimeisinEiKaytettyIndeksi("todo.dat"); // TODO tee metodi, joka ottaa viimeisimmän todo:n indeksin
+	private int tamanHetkinen = ind;
 		
 	
 	private void uusiKayttaja() {
@@ -215,12 +224,8 @@ public class HarjoitusTyoGUIController {
 	 */
 	public void lueTiedosto() {
 		try {
-			 kayttajaLista = new ListView<String>();
-			
+			kayttajaLista = new ListView<String>();
 			ohjelma.lueTiedosto();
-			
-			// TODO Tulosta tiedot näytölle ja listaan
-			
 			for (int i = 0; i < 10; i++) {
 				try {
 					if (ohjelma.annaKayttaja(i) != null) {					
@@ -234,7 +239,42 @@ public class HarjoitusTyoGUIController {
 				}				
 			}			
 		} catch (Exception e) {
+			e.printStackTrace();
+			e.getCause();
 			System.out.println("Ongelma HarjoitusTyoGUIController.java : " + e);
 		}
+	}
+	
+	
+	/**
+	 * Hakee tiedoston viimesimmän ei käytetyn indeksin
+	 * @param tiedosto Tiedosto, josta indeksi heataa.
+	 * @return viimesin käyttämätön indeksi.
+	 */
+	public int viimeisinEiKaytettyIndeksi(String tiedosto) {
+		int palautus = 0;
+		try (BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))) {
+			String rivi = lukija.readLine();
+			while ((rivi = lukija.readLine()) != null) {
+				String[] osat = rivi.split("#");
+				palautus = Integer.parseInt(osat[0]);
+			}
+			return palautus;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return palautus + 1;
+	}
+	
+	
+	public void tulostaKayttajat() {
+		kayttajaLista = new ListView<String>();
+		for (int i = 0; i < 10; i++) {
+			if (ohjelma.annaKayttaja(i) != null) {
+				kayttajaLista.getItems().addAll(ohjelma.annaKayttaja(i).toString());
+			}
+		}	
 	}
 }

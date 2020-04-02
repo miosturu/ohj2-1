@@ -210,8 +210,19 @@ public class Kayttaja {
 	public Kayttaja parse(String rivi) {
 		String[] arr = rivi.split("#");
 		int id = Integer.parseInt(arr[0]);
+		int[] indeksit = new int[MAX_TODOT];
 		
-		Kayttaja kayttaja = new Kayttaja(id, arr[1], arr[2], arr[3], arr[4], parseTodoIndeksit(arr[5]));
+		for (int i = 0; i < MAX_TODOT; i++) {
+			indeksit[i] = -1;
+		}
+			
+		try {
+			indeksit = parseTodoIndeksit(arr[5]);
+		} catch (Exception e) {
+			
+		}
+		
+		Kayttaja kayttaja = new Kayttaja(id, arr[1], arr[2], arr[3], arr[4], indeksit);
 		//kayttaja.todot = parseTodoIndeksit(arr[5]);
 		return kayttaja;
 	}
