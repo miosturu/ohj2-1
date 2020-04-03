@@ -154,8 +154,8 @@ public class HarjoitusTyoGUIController {
 	/*Ei käyttöliittymään liittyvät funktiot ja metodit*/
 	
 	private TODOohjelma ohjelma = new TODOohjelma();
-	private int ind = viimeisinEiKaytettyIndeksi("kayttajat.dat"); // TODO tee metodi, joka ottaa viimeisimmän käyttäjän indeksin
-	private int TODOind = viimeisinEiKaytettyIndeksi("todo.dat"); // TODO tee metodi, joka ottaa viimeisimmän todo:n indeksin
+	private int ind = ohjelma.viimeisinEiKaytettyIndeksi("kayttajat.dat");
+	private int TODOind = ohjelma.viimeisinEiKaytettyIndeksi("todo.dat");
 	private int tamanHetkinen = ind;
 		
 	
@@ -245,28 +245,7 @@ public class HarjoitusTyoGUIController {
 		}
 	}
 	
-	
-	/**
-	 * Hakee tiedoston viimesimmän ei käytetyn indeksin
-	 * @param tiedosto Tiedosto, josta indeksi heataa.
-	 * @return viimesin käyttämätön indeksi.
-	 */
-	public int viimeisinEiKaytettyIndeksi(String tiedosto) {
-		int palautus = 0;
-		try (BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))) {
-			String rivi = lukija.readLine();
-			while ((rivi = lukija.readLine()) != null) {
-				String[] osat = rivi.split("#");
-				palautus = Integer.parseInt(osat[0]);
-			}
-			return palautus;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return palautus + 1;
-	}
+
 	
 	
 	public void tulostaKayttajat() {

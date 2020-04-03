@@ -1,5 +1,8 @@
 package HarjoitusTyo;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -14,8 +17,16 @@ public class TODOohjelma {
 	public static void main(String[] args) {
 		TODOohjelma ohjelma = new TODOohjelma();
 		
+		int indeksi = ohjelma.viimeisinEiKaytettyIndeksi("kayttajat.dat");
+		
 		ohjelma.lueTiedosto();
-		System.out.println(ohjelma.annaKayttaja(0));
+		
+		Kayttaja k0 = new Kayttaja();
+		k0.luoValmis(indeksi);
+		
+		ohjelma.lisaaKayttaja(k0);
+		
+		ohjelma.tallenna();
 	}
 	
 	
@@ -30,8 +41,8 @@ public class TODOohjelma {
 	/**
 	 * Jäsenen lisäämisen välittäjämetodi.
 	 */
-	public void lisaaKayttaja(Kayttaja kayttja) {
-		this.kayttajat.lisaaKayttaja(kayttja);
+	public void lisaaKayttaja(Kayttaja kayttaja) {
+		this.kayttajat.lisaaKayttaja(kayttaja);
 	}
 	
 	
@@ -97,7 +108,7 @@ public class TODOohjelma {
 	 */
 	public void tallenna() {
 		try {
-			kayttajat.tallenna(kayttajatTiedosto); // TODO Pitäisi keksiä, miten tiedostot käsitellään
+			kayttajat.tallenna(kayttajatTiedosto);
 		} catch (Exception e) {}
 		
 		try {
@@ -124,5 +135,36 @@ public class TODOohjelma {
 			e.printStackTrace();
 			System.out.println("TODOohjelma ongelma: " + e);
 		}
+	}
+	
+	
+	
+	/**
+	 * Hakee tiedoston viimesimmän ei käytetyn indeksin
+	 * @param tiedosto Tiedosto, josta indeksi heataa.
+	 * @return viimesin käyttämätön indeksi.
+	 */
+	public int viimeisinEiKaytettyIndeksi(String tiedosto) {
+		int[] indeksit = new int[10];
+		
+		try (BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))) {
+			String rivi; 
+			while ((rivi = lukija.readLine()) != null) {
+				String[] osat = rivi.split("#");
+				int i = Integer.parseInt(osat[0]);
+				indeksit[i] = 1;
+			}
+			
+			for (int j = 0; j < 10; j++) {
+				if (indeksit[j] == 0) return j;
+			}
+						
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+		
 	}
 }
