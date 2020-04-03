@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import fi.jyu.mit.fxgui.ModalController;
 
 // Miten ladataan uusi ikkuna: https://www.youtube.com/watch?v=RJOza3XQk34
 
@@ -34,6 +35,7 @@ public class HarjoitusTyoGUIController {
 
     /*Paneelien v‰linen navigointi alkaa*/
     
+    /*
     
     @FXML void fromKirjautuminenToUusiKayttja (ActionEvent event) throws IOException{
     	BorderPane pane = FXMLLoader.load(getClass().getResource("UusiKayttajaGUIView.fxml"));
@@ -99,6 +101,7 @@ public class HarjoitusTyoGUIController {
     	UusiKayttajaPanel.getChildren().setAll(pane);
     }
 	
+	*/
 	
 	/*Paneelien v‰linen navigointi loppuu*/
 	
@@ -121,7 +124,7 @@ public class HarjoitusTyoGUIController {
 	/**
 	 * Lis‰‰ valmiin Kayttajan valittavalle listalle.
 	 */
-	@FXML void lisaaKayttaja(ActionEvent event) {
+	@FXML void lisaaKayttaja(ActionEvent event) {ModalController.showModal(HarjoitusTyoGUIController.class.getResource("UusiKayttajaGUIView.fxml"), "Uusi Kayttaja", null, "");
 		uusiKayttaja();
 	}
 	
@@ -147,7 +150,8 @@ public class HarjoitusTyoGUIController {
 	 */
 	@FXML void handleTallenna(ActionEvent event) {
 		//ohjelma.tallenna();
-    	tulostaKayttajat();
+    	//tulostaKayttajat();
+    	lueTiedosto();
 	}
 	
 
@@ -160,15 +164,20 @@ public class HarjoitusTyoGUIController {
 		
 	
 	private void uusiKayttaja() {
-		Kayttaja uusi = new Kayttaja(ind);
-		uusi.luoValmis(ind);
-		try {
-			ohjelma.lisaaKayttaja(uusi);
-			kayttajaLista.getItems().add(uusi.getNimi());
-			tulostusAlue.setText(ohjelma.annaKayttaja(ind).toString());
-			ind++;
-			ohjelma.tallenna();
-		} catch (Exception e) {
+		if (ind != -1) {
+			Kayttaja uusi = new Kayttaja(ind);
+			uusi.luoValmis(ind);
+			try {
+				ohjelma.lisaaKayttaja(uusi);
+				kayttajaLista.getItems().add(uusi.getNimi());
+				tulostusAlue.setText(ohjelma.annaKayttaja(ind).toString());
+				ind++;
+				ohjelma.tallenna();
+			} catch (Exception e) {
+				Dialogs.showMessageDialog("Ongelma k‰ytt‰j‰n luomisessa");
+				return;
+			}
+		} else {
 			Dialogs.showMessageDialog("Ongelma k‰ytt‰j‰n luomisessa");
 			return;
 		}
@@ -224,13 +233,13 @@ public class HarjoitusTyoGUIController {
 	 */
 	public void lueTiedosto() {
 		try {
-			kayttajaLista = new ListView<String>();
 			ohjelma.lueTiedosto();
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < ohjelma.annaMaxKayttajaMaara(); i++) {
 				try {
-					if (ohjelma.annaKayttaja(i) != null) {					
-						kayttajaLista.getItems().add(ohjelma.annaKayttaja(i).getNimi()); // Miksi ep‰onnistuu?
-						System.out.println(ohjelma.annaKayttaja(i).getNimi());
+					Kayttaja kayttaja = ohjelma.annaKayttaja(i);
+					if (kayttaja != null) {
+						String nimi = kayttaja.getNimi();
+						kayttajaLista.getItems().add(nimi);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -247,10 +256,12 @@ public class HarjoitusTyoGUIController {
 	
 
 	
-	
+	/**
+	 * Tulostaa kayttaja-listan sis‰llˆn
+	 */
 	public void tulostaKayttajat() {
-		kayttajaLista = new ListView<String>();
-		for (int i = 0; i < 10; i++) {
+		//kayttajaLista = new ListView<String>();
+		for (int i = 0; i < ohjelma.annaMaxKayttajaMaara(); i++) {
 			if (ohjelma.annaKayttaja(i) != null) {
 				kayttajaLista.getItems().addAll(ohjelma.annaKayttaja(i).toString());
 			}

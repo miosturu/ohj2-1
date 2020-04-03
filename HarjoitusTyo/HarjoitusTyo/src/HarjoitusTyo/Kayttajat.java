@@ -64,7 +64,6 @@ public class Kayttajat {
 		try (BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))) {
 			String rivi;
 			while ((rivi = lukija.readLine()) != null) {
-				//System.out.println(rivi);
 				Kayttaja kayttaja = new Kayttaja();
 				kayttaja = new Kayttaja().parse(rivi);
 				lisaaKayttaja(kayttaja);
@@ -98,7 +97,7 @@ public class Kayttajat {
 	/**
 	 * Lis‰‰ Kayttaja:n taulukkoon
 	 */
-	public void lisaaKayttaja(Kayttaja kayttaja) {
+	public void lisaaKayttaja(Kayttaja kayttaja) { // TODO lis‰‰ dynaamisuus
 		kayttajatTaulukko[kayttaja.getId()] = kayttaja;
 		this.kayttajienMaara++;
 	}
@@ -126,5 +125,13 @@ public class Kayttajat {
 	 */
 	public Kayttaja anna(int id) {
 		return kayttajatTaulukko[id];
+	}
+	
+	
+	/**
+	 * Palauttaa max kayttaja m‰‰r‰n
+	 */
+	public int getMaxKayttajat() {
+		return this.MAX_KAYTTAJIA;
 	}
 }

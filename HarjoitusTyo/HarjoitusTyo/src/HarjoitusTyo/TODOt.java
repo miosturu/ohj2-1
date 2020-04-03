@@ -132,4 +132,12 @@ public class TODOt {
 	public TODO anna(int id) {
 		return todotTaulukko[id];
 	}
+	
+	
+	/**
+	 * Palauttaa max kayttaja m‰‰r‰n
+	 */
+	public int getMaxTODOt() {
+		return this.MAX_TODOITA;
+	}
 }

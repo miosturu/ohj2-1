@@ -16,15 +16,16 @@ public class HarjoitusTyoMain extends Application {
 	@Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("KirjautuminenGUIView.fxml"));
+            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PaaIkkunaGUIView2.fxml"));
             
             final Pane root = ldr.load();
-            //final HarjoitusTyoGUIController harjoitustyoCtrl = (HarjoitusTyoGUIController) ldr.getController();
+            final HarjoitusTyoGUIController harjoitustyoCtrl = (HarjoitusTyoGUIController) ldr.getController();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("harjoitustyo.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle("TODO");
             primaryStage.show();
+            harjoitustyoCtrl.lueTiedosto();
         } catch(Exception e) {
             e.printStackTrace();
         }

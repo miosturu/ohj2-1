@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * TODOohjelma, jonka tarkoituksena on kommunikoida ja koordinoita muiden luokkien toimintaa ja käsitellä käyttäjän antamaan syötettä.
@@ -25,6 +28,11 @@ public class TODOohjelma {
 		k0.luoValmis(indeksi);
 		
 		ohjelma.lisaaKayttaja(k0);
+		
+		
+		TODO t0 = new TODO(); t0.luoValmis(0);
+		
+		ohjelma.lisaaTODO(ohjelma.annaKayttaja(1), t0);
 		
 		ohjelma.tallenna();
 	}
@@ -144,8 +152,8 @@ public class TODOohjelma {
 	 * @param tiedosto Tiedosto, josta indeksi heataa.
 	 * @return viimesin käyttämätön indeksi.
 	 */
-	public int viimeisinEiKaytettyIndeksi(String tiedosto) {
-		int[] indeksit = new int[10];
+	public int viimeisinEiKaytettyIndeksi(String tiedosto) {		
+		int[] indeksit = new int[this.annaMaxTODOMaara()];
 		
 		try (BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))) {
 			String rivi; 
@@ -155,7 +163,7 @@ public class TODOohjelma {
 				indeksit[i] = 1;
 			}
 			
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < this.annaMaxKayttajaMaara(); j++) {
 				if (indeksit[j] == 0) return j;
 			}
 						
@@ -164,7 +172,22 @@ public class TODOohjelma {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return -1;
 		
+	}
+	
+	/**
+	 * Palauttaa maksimin kayttaja maaran
+	 */
+	public int annaMaxKayttajaMaara() {
+		return this.kayttajat.getMaxKayttajat();
+	}
+	
+	
+	/**
+	 * Palauttaa maksimin kayttaja maaran
+	 */
+	public int annaMaxTODOMaara() {
+		return this.todot.getMaxTODOt();
 	}
 }
