@@ -43,6 +43,7 @@ public class TODOt {
 	/**
 	 * Lisää uuden todo:n ensimmäiseen vapaaseen indeksiin 
 	 */
+	@SuppressWarnings("deprecation")
 	public void lisaaGenerinenTODO() {
 		if (this.todoMaara > this.MAX_TODOITA) {
 			for (int i = 0; i < this.todotTaulukko.length-1; i++) {
@@ -135,7 +136,7 @@ public class TODOt {
 	
 	
 	/**
-	 * Palauttaa max kayttaja määrän
+	 * Palauttaa max todo määrän
 	 */
 	public int getMaxTODOt() {
 		return this.MAX_TODOITA;

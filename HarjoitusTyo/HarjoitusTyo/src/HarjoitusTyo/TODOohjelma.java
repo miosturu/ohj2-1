@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javafx.scene.control.ListView;
 
 /**
  * TODOohjelma, jonka tarkoituksena on kommunikoida ja koordinoita muiden luokkien toimintaa ja käsitellä käyttäjän antamaan syötettä.
@@ -103,13 +101,17 @@ public class TODOohjelma {
 	 * Tekee kayttajan todo:ista yhden merkkijonon
 	 * @param id Kayttajan ID.
 	 */
-	public String kayttajanTODOt(int id) {
+	public String kayttajanTODOt(int id, ListView<String> todoLista) {
 		int[] lista = this.kayttajat.anna(id).getTODOt();
 		String tulostettava = "";
-		for (int i = 0; i < 10; i++) if (lista[i] > -1) tulostettava += this.todot.anna(lista[i]) + "\n";
+		for (int i = 0; i < this.annaMaxTODOMaara(); i++) {
+			if (lista[i] > -1) {
+				todoLista.getItems().add(this.todot.anna(lista[i]).toStringLuettava());
+			}
+		}
 		return tulostettava;
 	}
-	
+		
 	
 	/**
 	 * Tallentaa Kayttajien ja todo:iden tiedot omiin tiedostoihin.
@@ -125,7 +127,9 @@ public class TODOohjelma {
 	}
 	
 	
-	
+	/**
+	 * Lukee kayttajien ja todo:iden tiedostot. Jos tiedostoa ei voida lukea, tulostetaan konsoliin virheet.
+	 */
 	public void lueTiedosto() {
 		kayttajat = new Kayttajat();
 		todot = new TODOt();
@@ -144,8 +148,7 @@ public class TODOohjelma {
 			System.out.println("TODOohjelma ongelma: " + e);
 		}
 	}
-	
-	
+		
 	
 	/**
 	 * Hakee tiedoston viimesimmän ei käytetyn indeksin
@@ -163,7 +166,7 @@ public class TODOohjelma {
 				indeksit[i] = 1;
 			}
 			
-			for (int j = 0; j < this.annaMaxKayttajaMaara(); j++) {
+			for (int j = 0; j < this.annaMaxTODOMaara(); j++) {
 				if (indeksit[j] == 0) return j;
 			}
 						
@@ -185,9 +188,18 @@ public class TODOohjelma {
 	
 	
 	/**
-	 * Palauttaa maksimin kayttaja maaran
+	 * Palauttaa maksimin todo maaran taulukossa
 	 */
 	public int annaMaxTODOMaara() {
 		return this.todot.getMaxTODOt();
+	}
+	
+	
+	/**
+	 * Palauttaa maksimin määrän todo:ita per käyttäjä
+	 * @return maksimi todo määrä per käyttäjä
+	 */
+	public int annaMaxTODOperKayttaja() {
+		return this.kayttajat.getMaxTODOtPerKayttaja();
 	}
 }

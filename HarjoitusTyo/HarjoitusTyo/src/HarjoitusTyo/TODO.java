@@ -7,6 +7,8 @@ import java.util.Random;
  * Todo-olio, joka tallentaa oman ID:n, otsikon, paikan, ajan ja lisätiedot.
  * Näitä voidaan muokata vapaasti, paitisi ID:tä.
  */
+
+@SuppressWarnings("deprecation")
 public class TODO {
 	private int id;
 	private String otsikko;
@@ -144,11 +146,20 @@ public class TODO {
 		for (int i = 0; i < 3; i++) {
 			aikaOsatInt[i] = Integer.parseInt(aikaOsatString[i]);
 		}
-		
+
 		Time aika = new Time(aikaOsatInt[0], aikaOsatInt[1], aikaOsatInt[2]);
 		
 		TODO todo = new TODO(id, arr[1], arr[2], aika, arr[4]);
 		return todo;
+	}
+	
+	
+	/**
+	 * Tulostaa todo:n tiedot sopivaan kohtaan
+	 * @param TODOnTiedot Todo:n tiedot tiedostosta
+	 */
+	public String toStringLuettava() {
+		return this.id + "  |  " + this.otsikko + "  |  " + this.paikka + "  |  " + this.aika + "  |  " + this.lisaTietoa + "  |";
 	}
 	
 	
@@ -197,7 +208,12 @@ public class TODO {
 
 	/*todo:n muokkausmetodit*/
 	
-	//HUOM! ID:tä ei voida muokata, koska se viittaa taulukon alkion paikkaan
+	/**
+	 * Muokkaa todo:n ID:n 
+	 */
+	public void muokkaaID(int id) {
+		this.id = id;
+	}
 	
 	/**
 	 * Muokkaa todo:n otsikkoa 

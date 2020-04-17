@@ -7,13 +7,14 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 
 <AnchorPane prefHeight="557.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HarjoitusTyo.HarjoitusTyoGUIController">
    <children>
@@ -22,8 +23,12 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <Label contentDisplay="CENTER" layoutX="80.0" layoutY="14.0" prefHeight="17.0" prefWidth="41.0" text="Jäsenet" textAlignment="CENTER" />
-                  <ListView layoutY="39.0" prefHeight="470.0" prefWidth="200.0" />
-                  <Button layoutX="57.0" layoutY="516.0" mnemonicParsing="false" text="Lisää käyttäjä" />
+                  <ListView fx:id="kayttajaLista" layoutY="68.0" onMouseClicked="#handleValinta" prefHeight="441.0" prefWidth="200.0" />
+                  <Button layoutX="57.0" layoutY="516.0" mnemonicParsing="false" onAction="#lisaaKayttaja" style="-fx-background-color: lightgreen;" text="Lisää käyttäjä" />
+                  <TextField fx:id="hakuKentta" layoutX="15.0" layoutY="37.0" onAction="#handleHakeminen" prefHeight="25.0" prefWidth="171.0" promptText="Hae...">
+                     <tooltip>
+                        <Tooltip text="Voit hakea tietyn käyttäjän. Ei tarvitse välittää kirjainkoosta." />
+                     </tooltip></TextField>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="584.0">
@@ -36,6 +41,7 @@
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" prefWidth="275.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="422.0" minWidth="10.0" prefWidth="297.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="422.0" minWidth="10.0" prefWidth="297.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -76,37 +82,61 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding>
                                     </Label>
-                                    <TextField GridPane.columnIndex="1">
+                                    <TextField fx:id="nimiField" editable="false" GridPane.columnIndex="1">
                                        <GridPane.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <TextField fx:id="puhNumField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <GridPane.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <TextField fx:id="osoiteField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <GridPane.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <TextField fx:id="sPostiField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                        <GridPane.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                                        </GridPane.margin>
                                     </TextField>
+                                    <Button fx:id="muokkaaKayttajaButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#handleMuutaKayttajaa" text="Muokkaa tietoja" GridPane.columnIndex="2">
+                                       <GridPane.margin>
+                                          <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Button fx:id="poistaKayttajaButton" mnemonicParsing="false" onAction="#handlePoistaKayttaja" prefHeight="25.0" prefWidth="102.0" text="Poista käyttäjä" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+                                       </GridPane.margin>
+                                    </Button>
                                  </children>
                               </GridPane>
                            </center>
                         </BorderPane>
                         <Separator prefHeight="19.0" prefWidth="572.0" />
-                        <Button mnemonicParsing="false" text="Lisää TODO">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </Button>
-                        <ListView prefHeight="234.0" prefWidth="572.0">
+                        <HBox prefHeight="48.0" prefWidth="572.0">
+                           <children>
+                              <Button fx:id="lisaaTODOButton" mnemonicParsing="false" onAction="#lisaaTODO" prefHeight="25.0" prefWidth="101.0" text="Lisää TODO">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="muokkaaTODONappi" mnemonicParsing="false" onAction="#handleMuutaTODO" text="Muokkaa TODO">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="poistaTODOButton" mnemonicParsing="false" onAction="#handlePoistaTODO" text="Poista TODO">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <ListView fx:id="TODOLista" onMouseClicked="#handleValintaTODO" prefHeight="234.0" prefWidth="572.0">
                            <VBox.margin>
                               <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
                            </VBox.margin>

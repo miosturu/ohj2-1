@@ -343,9 +343,26 @@ public class Kayttaja {
 	}
 	
 	
+	/**
+	 * Palauttaa maksimi m‰‰r‰n todo:ta per k‰ytt‰j‰.
+	 * @return Max m‰‰r‰ todoita
+	 */
+	public int getMaxTODOtPerKayttaja() {
+		return this.MAX_TODOT;
+	}
+	
+	
 	/*Kayttajan muokkausmetodit*/
 	
 	//HUOM! ID:t‰ ei voida muokata, koska se viittaa taulukon alkion paikkaan
+	
+	/**
+	 * Muokkaa kayttajan ID:n
+	 */
+	public void muokkaaID(int id) {
+		this.id = id;
+	}
+	
 	
 	/**
 	 * Muokkaa Kayttajan nimen

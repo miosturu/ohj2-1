@@ -1,22 +1,22 @@
 package HarjoitusTyo;
 
+/**
+ * @author Mikko Turunen
+ * @version 17.4.2020
+ *
+ */
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
-
-/**
- * @author m1kk0
- * @version 3.2.2020
- *
- */
 public class HarjoitusTyoMain extends Application {
 	@Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PaaIkkunaGUIView2.fxml"));
+            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PaaIkkunaGUIView.fxml"));
             
             final Pane root = ldr.load();
             final HarjoitusTyoGUIController harjoitustyoCtrl = (HarjoitusTyoGUIController) ldr.getController();

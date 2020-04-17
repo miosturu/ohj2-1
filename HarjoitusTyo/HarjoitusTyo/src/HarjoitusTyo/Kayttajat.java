@@ -97,7 +97,7 @@ public class Kayttajat {
 	/**
 	 * Lis‰‰ Kayttaja:n taulukkoon
 	 */
-	public void lisaaKayttaja(Kayttaja kayttaja) { // TODO lis‰‰ dynaamisuus
+	public void lisaaKayttaja(Kayttaja kayttaja) {
 		kayttajatTaulukko[kayttaja.getId()] = kayttaja;
 		this.kayttajienMaara++;
 	}
@@ -133,5 +133,14 @@ public class Kayttajat {
 	 */
 	public int getMaxKayttajat() {
 		return this.MAX_KAYTTAJIA;
+	}
+	
+	
+	/**
+	 * Palauttaa maksimi todo m‰‰r‰n per yksi kaytt‰ja
+	 * @return Maksimi todo per kayttaaja.
+	 */
+	public int getMaxTODOtPerKayttaja() {
+		return this.kayttajatTaulukko[0].getMaxTODOtPerKayttaja();
 	}
 }
