@@ -1,6 +1,7 @@
 package HarjoitusTyo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -80,7 +81,13 @@ public class Kayttajat {
 	 * Tallentaa Kayttajan tiedot tiedostoon
 	 * @throws IOException 
 	 */
-	public void tallenna(String tiedosto) throws IOException {		
+	public void tallenna(String tiedosto) throws IOException {
+		File tied = new File(tiedosto);
+		if (!tied.exists()) {
+			tied = new File("C:\\todoOhjelmaTiedot\\" + tiedosto);
+			tied.createNewFile();
+		}
+		System.out.println(tied.getCanonicalFile());
 		try (PrintWriter kirjuri = new PrintWriter(new FileWriter(tiedosto))) {
 			kirjuri.print("");
 			for (Kayttaja kayttaja : kayttajatTaulukko) {
