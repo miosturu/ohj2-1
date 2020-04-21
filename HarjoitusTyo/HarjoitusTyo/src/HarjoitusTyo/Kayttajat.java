@@ -34,6 +34,19 @@ public class Kayttajat {
 	}
 	
 	
+	/**
+	 * Kayttajat-luokan alustus metodi. Ei tarvitse tehdä mitään, koska ollaan määritelty tarvittavat arvot aikaisemmin
+	 * @example
+	 * <pre name="test">
+	 * Kayttajat kayttajat = new Kayttajat();
+	 * Kayttaja k0 = new Kayttaja();
+	 * k0.luoValmis();
+	 * kayttajat.lisaaKayttaja(k0);
+	 * kayttajat.getKayttajaMaara() === 1;
+	 * kayttajat.poistaKayttaja(0);
+	 * kayttajat.getKayttajaMaara() === 0;
+	 * </pre>
+	 */
 	public Kayttajat() {
 		// Ei tarvitse tehdä mitään.
 	}

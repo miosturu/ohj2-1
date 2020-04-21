@@ -123,6 +123,34 @@ public class Kayttaja {
 	
 	/**
 	 * Testi käyttäjä
+	 * @param id Kayttajan ID
+	 * @example
+	 * <pre name="test">
+	 * Kayttaja k0 = Kayttaja(0);
+	 * k0.muokkaaKaikki("Matti Meikäläinen", "0501234567", "Tekokatu 1A", "matti.meikalainen@email.fi");
+	 * k0.toString() === "0#Matti Meikäläinen#0501234567#Tekokatu 1A#matti.meikalainen@email.fi#";
+	 * k0.getId() === 0;
+	 * k0.getNimi() === "Matti Meikäläinen";
+	 * k0.getPuhNum() === "0501234567";
+	 * k0.getOsoite() === "Tekokatu 1A";
+	 * k0.getSPosti() === "matti.meikalainen@email.fi";
+	 * k0.getTODOt().toString() === [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+	 * 
+	 * TODO t0 = new TODO(0);
+	 * t0.luoValmis(0);
+	 * k0.lisaaTODO(0);
+	 * k0.getTODOt().toString() === [0,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+	 * k0.toString() === "0#Matti Meikäläinen#0501234567#Tekokatu 1A#matti.meikalainen@email.fi#0 ";
+	 * 
+	 * k0.muokkaaNimi("Katti Matikainen");
+	 * k0.getNimi() === "Katti Matikainen";
+	 * k0.muokkaaPuhNum("040987654");
+	 * k0.getPuhNum() === "040987654";
+	 * k0.muokkaaOsoite("Kattilantie 5B");
+	 * k0.getOsoite() === "Kattilantie 5B";
+	 * k0.muokkaaSPosti("katti.matikainen@email.fi");
+	 * k0.getSPosti() === "katti.matikainen@email.fi";
+	 * </pre>
 	 */
 	public void luoValmis(int id) {
 		this.id = id;
@@ -227,6 +255,10 @@ public class Kayttaja {
 		return kayttaja;
 	}
 	
+	
+	/**
+	 * Parsettaa
+	 */
 	public int[] parseTodoIndeksit(String jono) {
 		int[] todoIndeksit = new int[MAX_TODOT];
 		
@@ -242,6 +274,7 @@ public class Kayttaja {
 		
 		return todoIndeksit;
 	}
+	
 	
 	/**
 	 * Tulostaa tietojen tulostukseen erottimet, vain esteettinen

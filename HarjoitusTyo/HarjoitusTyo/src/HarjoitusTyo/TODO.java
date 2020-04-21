@@ -24,7 +24,29 @@ public class TODO {
 	
 	
 	/**
-	 * Luo uuden todo-olion, jossa on olettamus arvot 
+	 * Luo uuden todo-olion, jossa on olettamus arvot
+	 * @param id Todo:n indeksi
+	 * @example
+	 * <pre name="test">
+	 * TODO t0 = new TODO(0);
+	 * Time aika0 = new Time(14,45,0);
+	 * t0.muokkaaKaikki("Tee harkkaan viel‰ testit", "Kotikone", aika0, "Ei muuta sitten");
+	 * t0.toString() === "0#Tee harkkaan viel‰ testit#Kotikone#14:45:00#Ei muuta sitten";
+	 * t0.getId() === 0;
+	 * t0.getOtsikko() === "Tee harkkaan viel‰ testit";
+	 * t0.getPaikka() === "Kotikone";
+	 * t0.getAika().toString() === "14:45:00";
+	 * t0.getLisaTietoa() === "Ei muuta sitten";
+	 * 
+	 * t0.muokkaaOtsikko("Tee harkka");
+	 * t0.getOtsikko === "Tee harkka";
+	 * t0.muokkaaPaikka("Miss‰ vain");
+	 * t0.getPaikka() === "Miss‰ vain";
+	 * t0.muokkaaAika(new Time(15,55,00));
+	 * t0.getAika().toString() === "14:55:00";
+	 * t0.muokkaaLisaTietoa("Keksit‰‰n tekemist‰");
+	 * t0.getLisaTietoa() === "Keksit‰‰n tekemist‰";
+	 * </pre> 
 	 */
 	public TODO(int id) {
 		this.id = id;
@@ -86,6 +108,9 @@ public class TODO {
 	}
 	
 	
+	/**
+	 * Tulostaa todo:n tiedot konsoliin.
+	 */
 	public void tulostaTiedot() {
 		
 		tulostaErottimet();		
@@ -107,6 +132,7 @@ public class TODO {
 	public void tulostaErottimet() {
 		System.out.println("=======================================");
 	}
+	
 	
 	/**
 	 * Muuttaa olion luettavaan muotoon

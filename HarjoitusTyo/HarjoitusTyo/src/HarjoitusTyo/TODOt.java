@@ -36,6 +36,21 @@ public class TODOt {
 	}
 	
 	
+	/**
+	 * Todo:t luokan alustusmetodi. Ei tarvitse tehd‰ mit‰‰n, koska arvot asetetaan aikaisemmin.
+	 * @example
+	 * <pre name="test">
+	 * TODOt todot = new TODOt();
+	 * TODO t0 = new TODO();
+	 * t0.luoValmis(0);
+	 * todot.lisaaTODO(t0);
+	 * todot.anna(0) === t0;
+	 * todot.getTODOMaara() === 1;
+	 * todot.poistaTODO(0);
+	 * todot.getTODOMaara() === 0;
+	 * todot.anna(0) === null;
+	 * </pre>
+	 */
 	public TODOt() {
 		// Ei tarvitse tehd‰ mit‰‰n, muuttujat m‰‰ritelty aikaisemmin.
 	}

@@ -37,6 +37,32 @@ public class TODOohjelma {
 	
 	
 	/**
+	 * TODOohjelman konstruktori. Ei tarvitse tehd‰ mit‰‰n, koska arvot ollaan m‰‰ritelty aikaisemmin.
+	 * @example
+	 * </pre name="test">
+	 * TODOohjelma ohjelma = new TODOohjelma();
+	 * TODO t0 = new TODO(0); t0.luoValmis(0);
+	 * TODO t1 = new TODO(1); t1.luoValmis(1);
+	 * TODO t2 = new TODO(2); t2.luoValmis(2);
+	 * 
+	 * Kayttaja k0 = new Kayttaja(0); k0.luoValmis(0);
+	 * Kayttaja k1 = new Kayttaja(1); k0.luoValmis(1);
+	 * ohjelma.lisaaKayttaja(k0); ohjelma.lisaaKayttaja(k1);
+	 * 
+	 * ohjelma.lisaaTODO(k0, t0); ohjelma.lisaaTODO(k0, t1); ohjelma.lisaaTODO(k1, t2);
+	 * ohjelma.getKayttajia() === 2;
+	 * ohjelma.annaKayttaja(0) === k0;
+	 * ohjelma.annaTODO(0) === t0;
+	 * ohjelma.poistaKayttaja(1);
+	 * ohjelma.getKayttajia() === 1;
+	 * </pre>
+	 */
+	public TODOohjelma() {
+		
+	}
+	
+	
+	/**
 	 * J‰senen postamisen v‰litt‰j‰metodi.
 	 */
 	public void poistaKayttaja(int id) {
